@@ -63,43 +63,49 @@ def getPlayerInfo(concatName, playerID):
     """
     Returns the player's info.
     """
-    #try:
-    print('http://www.nfl.com/player/'+ concatName + '/' + playerID + '/profile')
-    pageData = urllib.urlopen('http://www.nfl.com/player/'+ concatName + '/' + playerID + '/profile').read()
+    try:
+        print('http://www.nfl.com/player/'+ concatName + '/' + playerID + '/profile')
+        pageData = urllib.urlopen('http://www.nfl.com/player/'+ concatName + '/' + playerID + '/profile').read()
     #f = open("file", 'w')
     #f.write(pageData)
 
         
-    h = reHeight.findall(pageData)
-    h = h[0]
-    heightTokens = h.split('-')
-    #print heightTokens
-    height = int(heightTokens[0]) * 12 + int(heightTokens[1])
+        h = reHeight.findall(pageData)
+        h = h[0]
+        heightTokens = h.split('-')
+        #print heightTokens
+        height = int(heightTokens[0]) * 12 + int(heightTokens[1])
 
-    name = reName.findall(pageData)
-    if(len(name)==0):
-        name = "NA"
-    else:
-        name = name[0]
+        name = reName.findall(pageData)
+        if(len(name)==0):
+            name = "NA"
+        else:
+            name = name[0]
 
-    age = reAge.findall(pageData)
-    if(len(age)==0):
-        age = 0
-    else:
-        age = age[0]
+        age = reAge.findall(pageData)
+        if(len(age)==0):
+            age = 0
+        else:
+            age = age[0]
+
+        weight = reWeight.findall(pageData)
+        if(len(weight)==0):
+            weight = 0
+        else:
+            weight = weight[0]
     
-    return {'name': name, 
+        return {'name': name, 
                 'position': rePosition.findall(pageData)[0], 
                 'height': height, 
-                'weight': int(reWeight.findall(pageData)[0]), 
+                'weight': int(weight), 
                 'age': int(age), 
                 'college': reCollege.findall(pageData)[0], 
                 'team': reTeam.findall(pageData)[0]}
-    #except:
-    #    print 'Failed to load', playerID
+    except:
+        print 'Failed to load', playerID
  
 # Open the CSV file for output.
-csvFile = csv.writer(open('players.csv', 'w'), delimiter=',', quotechar='"')
+csvFile = csv.writer(open('players2.csv', 'a'), delimiter=',', quotechar='"')
  
 # Download the list of teams
 teams = getTeamList()
@@ -107,6 +113,7 @@ teams = getTeamList()
 # For each team, download the list of players
 for team in teams:
     print 'Retrieving players from the', team[1]
+    print('\n')
     players = getTeamPlayers(team[0])
     
     # For each player, download their info and write it to the CSV file
