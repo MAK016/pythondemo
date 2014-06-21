@@ -112,8 +112,9 @@ teams = getTeamList()
  
 # For each team, download the list of players
 for team in teams:
-    print 'Retrieving players from the', team[1]
     print('\n')
+    print 'Retrieving players from the', team[1]
+    
     players = getTeamPlayers(team[0])
     
     # For each player, download their info and write it to the CSV file
