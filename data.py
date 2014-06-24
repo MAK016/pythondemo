@@ -30,7 +30,7 @@ def getTeamPlayers(teamID):
         (concatName, playerID, playerLastName, playerFirstName)
     """
     
-    # Download the first page of the team roster and store the list of players.
+    # Download the first page of the team roster and store the list of players.c
     teamPageHTML = urllib2.urlopen('http://www.nfl.com/players/search?category=team&filter=%s&playerType=current' % teamID).read()
     players = rePlayerData.findall(teamPageHTML)
     
@@ -58,7 +58,7 @@ reCollege = re.compile('College</strong>: ([^"]{0,50}( [^2]+)?)</p>')
 reName = re.compile('<title>([^<]+),')
 reTeam = re.compile('team=[^"]+">([^<]+)</a>')
 rePosition = re.compile('<title>.*, ([^"]([^"]{1,2})?) ')
- 
+#FIXME possible multithreading solution to speed up http get requesting? 
 def getPlayerInfo(concatName, playerID):
     """
     Returns the player's info.
@@ -105,7 +105,7 @@ def getPlayerInfo(concatName, playerID):
         print 'Failed to load', playerID
  
 # Open the CSV file for output.
-csvFile = csv.writer(open('players2.csv', 'a'), delimiter=',', quotechar='"')
+csvFile = csv.writer(open('players3.csv', 'a'), delimiter=',', quotechar='"')
  
 # Download the list of teams
 teams = getTeamList()
